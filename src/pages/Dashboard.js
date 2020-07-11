@@ -11,7 +11,11 @@ class Dashboard extends Component {
             {
                 id: "Exercise1",
                 title: "Açılan Nesneler: Dikey"
-            }
+            },
+            {
+                id: "Exercise2",
+                title: "Açılan Nesneler: Yatay"
+            },
         ]
 
         return (
