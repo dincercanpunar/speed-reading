@@ -2,31 +2,11 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import _ from 'lodash'
-import { colors } from '~/constants';
+import { colors, icons } from '~/constants';
 import { sh, sw } from '~/helpers';
 
 const length = 10;
 const speed = 500;
-
-const icons = [
-    "apple-alt",
-    "bomb",
-    "broom",
-    "bus",
-    "cannabis",
-    "carrot",
-    "chess-knight",
-    "cloud-moon",
-    "coffee",
-    "couch",
-    "crown",
-    "crow",
-    "dog",
-    "fish",
-    "frog",
-    "hammer",
-    "hamburger"
-]
 
 class Exercises1 extends Component {
     state = {
@@ -98,8 +78,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: sw(30),
-        height: sh(100),
         backgroundColor: colors.gray
     }
 })

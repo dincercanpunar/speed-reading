@@ -5,9 +5,7 @@ class ExerciseSettings extends Component {
     render() {
         return (
             <View>
-                <Text>
-                    sada
-                </Text>
+                
             </View>
         )
     }

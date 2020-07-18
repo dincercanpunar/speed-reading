@@ -7,11 +7,10 @@ class Exercise extends Component {
         const { getParam } = this.props.navigation;
 
         const exerciseId = getParam('exerciseId', 'NO-ID');
-
-        const SpecificStory = exercises[exerciseId];
+        const SelectedExercise = exercises[exerciseId];
 
         return (
-            <SpecificStory />
+            <SelectedExercise />
         )
     }
 }
