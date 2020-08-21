@@ -21,6 +21,10 @@ class Dashboard extends Component {
                 id: "Exercise3",
                 title: "Büyüyen Nesneler: Çember"
             },
+            {
+                id: "Exercise4",
+                title: "Büyüyen Nesneler: Kare"
+            },
         ]
 
         return (
