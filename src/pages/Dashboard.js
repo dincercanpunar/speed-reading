@@ -1,72 +1,250 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { Component, Fragment } from 'react'
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import { sh, sw } from '~/helpers'
-import { colors } from '~/constants';
+import { colors, space, backgroundColors } from '~/constants';
+import { Header } from '~/common';
+import Search from './dashboard/Search';
+import DailyExercise from './dashboard/DailyExercise';
+import Box from './dashboard/Box';
+import Tabs from './dashboard/Tabs';
+import SpeedTestCard from './dashboard/SpeedTestCard';
 
 class Dashboard extends Component {
+    state = {
+        activeTab: "main"
+    }
+
+    setActiveTab = (activeTab) => {
+        this.setState({ activeTab })
+    }
+
     render() {
-        const { navigate } = this.props.navigation;
+        const { activeTab } = this.state;
 
         const exercises = [
             {
                 id: "Exercise1",
-                title: "Açılan Nesneler: Dikey"
+                title: "Açılan İzli Nesneler: Dikey",
+                statuses: {
+                    type: 'icons',
+                    position: "vertical",
+                    trace: true,
+                    lengthHorizontal: 1,
+                    lengthVertical: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise1",
+                title: "Açılan İzsiz Nesneler: Dikey",
+                statuses: {
+                    type: 'icons',
+                    position: "vertical",
+                    trace: false,
+                    lengthHorizontal: 3,
+                    lengthVertical: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise1",
+                title: "Açılan Nesneler: Yatay",
+                statuses: {
+                    type: 'icons',
+                    position: "horizontal",
+                    lengthHorizontal: 2,
+                    lengthVertical: 5,
+                    speed: 100
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise1",
+                title: "Açılan Harfler: Dikey",
+                statuses: {
+                    type: 'letters',
+                    position: "vertical",
+                    lengthHorizontal: 3,
+                    lengthVertical: 10,
+                    speed: 100
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise1",
+                title: "Açılan Harfler: Yatay",
+                statuses: {
+                    type: 'letters',
+                    position: "horizontal",
+                    lengthHorizontal: 3,
+                    lengthVertical: 10,
+                    speed: 100
+                },
+                icons: ["eye"]
             },
             {
                 id: "Exercise2",
-                title: "Açılan Nesneler: Yatay"
+                title: "Büyüyen Nesneler: Çember",
+                statuses: {
+                    type: 'circle',
+                    trace: false,
+                    continuous: false,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
             },
             {
-                id: "Exercise3",
-                title: "Büyüyen Nesneler: Çember"
+                id: "Exercise2",
+                title: "Büyüyen Sürekli Nesneler: Çember",
+                statuses: {
+                    type: 'circle',
+                    trace: false,
+                    continuous: true,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
             },
             {
-                id: "Exercise4",
-                title: "Büyüyen Nesneler: Kare"
+                id: "Exercise2",
+                title: "Büyüyen Nesneler: Kare",
+                statuses: {
+                    type: 'square',
+                    trace: false,
+                    continuous: false,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
             },
+            {
+                id: "Exercise2",
+                title: "Büyüyen Sürekli Nesneler: Kare",
+                statuses: {
+                    type: 'square',
+                    trace: false,
+                    continuous: true,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise2",
+                title: "Büyüyen İzli Nesneler: Çember",
+                statuses: {
+                    type: 'circle',
+                    trace: true,
+                    continuous: false,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise2",
+                title: "Büyüyen Sürekli İzli Nesneler: Çember",
+                statuses: {
+                    type: 'circle',
+                    trace: true,
+                    continuous: true,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise2",
+                title: "Büyüyen İzli Nesneler: Kare",
+                statuses: {
+                    type: 'square',
+                    trace: true,
+                    continuous: false,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            {
+                id: "Exercise2",
+                title: "Büyüyen Sürekli İzli Nesneler: Kare",
+                statuses: {
+                    type: 'square',
+                    trace: true,
+                    continuous: true,
+                    length: 10,
+                    speed: 200
+                },
+                icons: ["eye"]
+            },
+            // {
+            //     id: "Exercise3",
+            //     title: "Göz Egzersizleri: Kolonlar",
+            //     statuses: {
+            //         lengthHorizontal: 2,
+            //         lengthVertical: 10,
+            //         speed: 200
+            //     },
+            //     icons: ["eye"]
+            // },
         ]
 
         return (
-            <View style={styles.container}>
-            {
-                exercises.map((item, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={() => navigate('Exercise', {
-                            exerciseId: item.id
-                        })}
-                    >
-                        <View style={styles.box}>
-                            <Text>
-                                {item.title}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                ))
-            }
-            </View>
+            <ScrollView>
+                <Header />
+                <View style={styles.container}>
+                    <Tabs
+                        activeTab={activeTab} 
+                        setActiveTab={this.setActiveTab} />
+                    {
+                        activeTab === "personalExercise" ?
+                            <Fragment>
+                                <Search />
+                                {/* <Text style={styles.title}>Bireysel Antrenmanlar</Text> */}
+                                <View style={styles.exercises}>
+                                {
+                                    exercises.map((item, index) => (
+                                        <Box 
+                                            key={index} 
+                                            item={item}
+                                            index={index}
+                                        />
+                                    ))
+                                }
+                                </View>
+                            </Fragment>
+                        :
+                            <Fragment>
+                                <DailyExercise />
+                                <SpeedTestCard />
+                            </Fragment>
+                    }
+                </View>
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        alignItems: 'center',
-        flex: 1,
-        paddingVertical: sh(5),
+        paddingHorizontal: space.containerPadding,
+        paddingBottom: space.containerPadding,
         backgroundColor: colors.white,
     },
-    box: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: sw(100),
-        height: sh(6),
-        marginBottom: sh(2),
-        backgroundColor: colors.gray
+    exercises: {
+        flex: 1,
+        marginTop: sh(8)
+    },
+    
+    title: {
+        fontSize: sh(6.1),
+        fontWeight: '600',
+        marginVertical: sh(5)
     }
 })
 
-export default withNavigation(Dashboard)
+export default Dashboard

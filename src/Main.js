@@ -4,7 +4,8 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { 
   Dashboard ,
-  Exercise
+  Exercise,
+  SpeedTest
 } from '~/pages'
 
 const AppNavigator = createStackNavigator(
@@ -14,6 +15,9 @@ const AppNavigator = createStackNavigator(
     },
     Exercise: {
       screen: Exercise
+    },
+    SpeedTest: {
+      screen: SpeedTest
     },
   },
   {

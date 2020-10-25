@@ -1,36 +1,42 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import _ from 'lodash'
-import { colors, icons } from '~/constants';
+import { colors } from '~/constants';
 import { sh, sw } from '~/helpers';
 
-const length = 10;
-const speed = 500;
-
-class Exercises1 extends Component {
+class Exercise3 extends Component {
     state = {
         count: 0,
-        objects: []
-    }
-
-    getObjects = () => {
-        this.setState({ 
-            objects: _.sampleSize(icons, length) 
-        });
+        circles: null,
+        continuousStatus: 'next'
     }
 
     componentDidMount() {
-        this.getObjects()
+        const { length, speed, continuous } = this.props;
 
         this.interval = setInterval(() => {
-            const { count } = this.state;
+            const { count, continuousStatus } = this.state;
 
-            if(count < length - 1) {
-                this.setState({count: count+1})
+            if(continuous) {
+                if(continuousStatus==='next') {
+                    if(count < length - 1) {
+                        this.setState({count: count+1})
+                    } else {
+                        this.setState({continuousStatus: 'back'})
+                    }
+                } else {
+                    if(count > 0) {
+                        this.setState({count: count-1})
+                    } else {
+                        this.setState({continuousStatus: 'next'})
+                    }
+                }
             } else {
-                this.setState({count: 0})
-                this.getObjects()
+                if(count < length - 1) {
+                    this.setState({count: count+1})
+                } else {
+                    this.setState({ count: 0 })
+                }
             }
         }, speed);
     }
@@ -38,29 +44,54 @@ class Exercises1 extends Component {
     componentWillUnmount() {
         clearInterval(this.interval);
     }
-    
-    render() {
-        const { count, objects } = this.state;
-        const height = sw(100)/length;
-        const width = height;
+
+    renderCircle = (children, size, active) => {
+        const { type } = this.props;
 
         return (
+            <View 
+                style={[
+                    styles.circle, 
+                    { 
+                        height: size, 
+                        width: size, 
+                        borderColor: active ? colors.black : colors.gray,
+                        borderRadius: type === 'circle' ? 1000 : 0
+                    }
+                ]}
+            >
+                {children}
+            </View>
+        )
+    }
+
+    renderCircles = () => {
+        const { count } = this.state;
+        const { length, trace } = this.props;
+
+        var circles = null;
+
+        for (let index = 0; index < length; index++) {
+            const height = sw(100)/length;
+            circles = 
+                this.renderCircle(
+                    circles, 
+                    index*height, 
+                    !trace ? (count === index ? true : false) : (count >= index ? true : false)
+                )
+        }
+
+        return circles
+    }
+
+    render() {
+        return (
             <View style={styles.container}>
+                <View style={styles.subContainer}>
                 {
-                    objects.map((item, index) => (
-                        <View 
-                            key={index} 
-                            style={[styles.subContainer, { height, width }]}
-                        >
-                            <Icon 
-                                solid
-                                name={item}
-                                size={height*(1/2)} 
-                                color={count >= index ? colors.black : colors.gray}
-                            />
-                        </View>
-                    ))
+                    this.renderCircles()
                 }
+                </View>
             </View>
         )
     }
@@ -79,8 +110,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        width: sw(100),
+        height: sw(100),
         backgroundColor: colors.gray
+    },
+    circle: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2
     }
 })
 
-export default Exercises1;
+export default Exercise3;

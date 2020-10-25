@@ -5,7 +5,7 @@ const screenWidth = Dimensions.get('window').width
 
 
 function sh(value) {
-    return(screenHeight*(value/120))
+    return((screenHeight*(value/120)) - 20)
 }
 
 function sw(value) {

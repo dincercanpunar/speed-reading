@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import _ from 'lodash'
-import { colors } from '~/constants';
+import { colors, icons } from '~/constants';
 import { sh, sw } from '~/helpers';
 
-const length = 10;
-const speed = 500;
-
-class Exercise3 extends Component {
+class Exercise5 extends Component {
     state = {
-        count: 0,
-        circles: null
+        active: 0
     }
 
     componentDidMount() {
+        const { speed } = this.props;
         this.interval = setInterval(() => {
-            const { count } = this.state;
+            const { active } = this.state;
+            const { lengthHorizontal, lengthVertical } = this.props;
 
-            if(count < length - 1) {
-                this.setState({count: count+1})
+            if(active < (lengthHorizontal*lengthVertical) - 1) {
+                this.setState({active: active+1})
             } else {
-                this.setState({count: 0})
+                this.setState({active: 0})
             }
         }, speed);
     }
@@ -29,47 +27,56 @@ class Exercise3 extends Component {
         clearInterval(this.interval);
     }
 
-    renderCircle = (children, size, active) => {
+    renderBox = (index, active) => {
+        const { lengthHorizontal, lengthVertical } = this.props;
+
+        const height = sh(100) / lengthVertical;
+        const width = (sw(100) / lengthHorizontal);
+
+        const marginBottom = (sh(110) - sh(100)) / (lengthVertical)
+
+        //const marginBottom = (sh(110) - (height * lengthVertical)) / lengthVertical
+        console.log(marginBottom)
         return(
             <View 
+                key={index}
                 style={[
-                    styles.circle, 
+                    styles.box, 
                     { 
-                        height: size, 
-                        width: size, 
-                        borderColor: active ? colors.black : colors.gray
+                        height, 
+                        width, 
+                        marginBottom,
+                        backgroundColor: active ? colors.black : colors.gray
                     }
                 ]}
             >
-                {children}
+
             </View>
         )
     }
 
-    renderCircles = () => {
-        const { count } = this.state;
-        var circles = null;
+    renderBoxs = () => {
+        const { active } = this.state;
+        const { lengthHorizontal, lengthVertical } = this.props;
 
-        for (let index = 0; index < length; index++) {
-            const height = sw(100)/length;
-            circles = 
-                this.renderCircle(
-                    circles, 
-                    index*height, 
-                    count >= index ? true : false
-                )
+        var boxs = [];
+
+        for (let index = 0; index < lengthHorizontal * lengthVertical; index++) {
+            boxs.push(
+                this.renderBox(index, active === index ? true : false)
+            );
         }
 
-        return circles
+        return boxs
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.subContainer}>
-                {
-                    this.renderCircles()
-                }
+                    {
+                        this.renderBoxs().map((item) => item)
+                    }
                 </View>
             </View>
         )
@@ -79,7 +86,6 @@ class Exercise3 extends Component {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
@@ -87,19 +93,14 @@ const styles = StyleSheet.create({
     },
     subContainer: {
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: sw(100),
-        height: sw(100),
-        backgroundColor: colors.gray
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
+        //alignItems: 'center',
     },
-    circle: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 2,
-        borderRadius: 1000
+    box: {
+
     }
 })
 
-export default Exercise3;
+export default Exercise5;
