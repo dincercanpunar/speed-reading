@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { withNavigation } from 'react-navigation'
 import { sh, sw } from '~/helpers'
 import { colors, space, backgroundColors } from '~/constants';
 import { Header } from '~/common';
-import Search from './dashboard/Search';
-import DailyExercise from './dashboard/DailyExercise';
-import Box from './dashboard/Box';
-import Tabs from './dashboard/Tabs';
-import SpeedTestCard from './dashboard/SpeedTestCard';
+import {
+    Box,
+    DailyExercise,
+    Search,
+    SpeedTestCard,
+    Tabs
+} from './dashboard';
 
 class Dashboard extends Component {
     state = {

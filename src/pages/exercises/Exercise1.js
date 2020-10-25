@@ -6,8 +6,6 @@ import { colors, icons, letters, space } from '~/constants';
 import { sh, sw } from '~/helpers';
 import { ExerciseHeader } from '~/common';
 
-
-
 class Exercises1 extends Component {
     state = {
         count: 0,
